@@ -6,7 +6,9 @@ export function Aside() {
       <header className="flex h-[100px] items-center px-6 text-2xl font-semibold">
         Kanban
       </header>
-      <span className="block pl-6 text-sm text-white/30">All Boards (3)</span>
+      <span className="block pl-6 text-sm uppercase text-white/30">
+        All Boards (3)
+      </span>
 
       <nav className="mt-5 flex w-full flex-col">
         <AsideLink href="/" title="Platform Launch" />

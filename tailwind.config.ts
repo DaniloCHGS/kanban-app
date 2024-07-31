@@ -26,6 +26,11 @@ const config = {
             DEFAULT: "#645fc6",
             secondary: "#4e4b87",
           },
+          kanban: {
+            todo: "#4bc1e7",
+            done: "#62e4b1",
+            "new-column": "#24242e",
+          },
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

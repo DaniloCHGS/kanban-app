@@ -9,15 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AddNewTaks } from "./AddNewTaks";
 
 export function MenuTop() {
   return (
     <nav className="flex items-center justify-between border-b border-white/10 bg-theme-secondary px-6">
       <h2 className="text-lg font-medium">Platform Launch</h2>
       <div className="flex items-center gap-3">
-        <Button className="gap-2 rounded-full">
-          <FaPlus /> Add New Task
-        </Button>
+        <AddNewTaks />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

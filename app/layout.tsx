@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Aside } from "./components/aside";
-import { MenuTop } from "./components/menu-top";
+import { App } from "./app";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +18,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <div className="grid min-h-screen grid-cols-[250px_1fr] grid-rows-[100px_1fr] bg-theme text-white">
-          <Aside />
-          <MenuTop />
-          <main className="p-5">{children}</main>
-        </div>
+        <App>{children}</App>
       </body>
     </html>
   );

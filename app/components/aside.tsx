@@ -9,7 +9,7 @@ export function Aside() {
   return (
     <aside
       data-open={asideOpen}
-      className="row-span-2 justify-between border-r border-white/10 bg-theme-secondary pb-8 pr-6 data-[open=true]:flex data-[open=false]:hidden data-[open=true]:flex-col"
+      className="row-span-2 hidden flex-col justify-between border-r border-white/10 bg-theme-secondary pb-8 pr-6 data-[open=true]:flex"
     >
       <div>
         <header className="flex h-[100px] items-center px-6 text-2xl font-semibold">

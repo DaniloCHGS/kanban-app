@@ -12,7 +12,7 @@ interface AddProps extends ComponentProps<"input"> {
 
 function Add({ className, onRemove, ...props }: Readonly<AddProps>) {
   return (
-    <div className="flex gap-2">
+    <div className="mb-2 mr-3 flex gap-2 only:mb-0">
       <Input {...props} />
       <button className="px-2 text-lg font-bold" onClick={onRemove}>
         <RiCloseLargeFill />

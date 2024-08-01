@@ -13,7 +13,7 @@ export function App({
   return (
     <div
       data-open={asideOpen}
-      className="grid min-h-screen grid-rows-[100px_1fr] bg-theme text-white data-[open=true]:grid-cols-[250px_1fr]"
+      className="grid min-h-screen grid-cols-[1fr] grid-rows-[100px_1fr] bg-theme text-white data-[open=true]:grid-cols-[250px_1fr]"
     >
       <Aside />
       <MenuTop />

@@ -12,7 +12,7 @@ export function HiddeAside() {
       className="ml-6 flex w-max items-center gap-2 py-2 text-sm text-white/50 transition hover:text-white"
     >
       <FaRegEyeSlash />
-      Hide Sidebar
+      Fechar menu
     </button>
   );
 }
@@ -25,7 +25,7 @@ export function ShowAside() {
       onClick={() => setAsideOpen(true)}
       className="gap-2 rounded-full data-[show=true]:hidden"
     >
-      <FaRegEye /> Show Sidebar
+      <FaRegEye /> Abrir menu
     </Button>
   );
 }

@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function AddNewTaks() {
   const [substasks, setSubstasks] = useState<string[]>([]);
@@ -43,12 +44,12 @@ export function AddNewTaks() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="gap-2 rounded-full">
-          <FaPlus /> Add New Task
+          <FaPlus /> Criar nova demanda
         </Button>
       </DialogTrigger>
       <DialogContent className="border-theme-secondary bg-theme-secondary text-white sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Task</DialogTitle>
+          <DialogTitle>Criar nova demanda</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
@@ -65,7 +66,7 @@ export function AddNewTaks() {
           </div>
           <div className="grid gap-2">
             <Label className="text-xs">Subtasks</Label>
-            <div className="grid max-h-[168px] gap-2 overflow-y-auto">
+            <ScrollArea className="max-h-[168px]">
               {substasks.length > 0 &&
                 substasks.map((substasks) => (
                   <Subtask.Add
@@ -73,7 +74,7 @@ export function AddNewTaks() {
                     onRemove={() => removeSubstasks(substasks)}
                   />
                 ))}
-            </div>
+            </ScrollArea>
             <Button
               onClick={addNewSubstasks}
               className="rounded-full bg-white text-theme-purple hover:text-white"

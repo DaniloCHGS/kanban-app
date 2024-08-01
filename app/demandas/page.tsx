@@ -1,7 +1,7 @@
-import { Kanban } from "./components/kanban";
-import { Column } from "./components/kanban/column";
-import { Task } from "./components/kanban/task";
-import { ViewTask } from "./components/view-task";
+import { Kanban } from "../components/kanban";
+import { Column } from "../components/kanban/column";
+import { Task } from "../components/kanban/task";
+import { ViewTask } from "../components/view-task";
 
 export default function Home() {
   return (

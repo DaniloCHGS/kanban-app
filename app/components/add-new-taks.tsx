@@ -39,6 +39,7 @@ import { useTasks } from "@/store/useTasks";
 
 export function AddNewTaks() {
   const [substasks, setSubstasks] = useState<TypeSubsTasks[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
 
   const { tasks, setTasks } = useTasks();
   const { toast } = useToast();
@@ -111,10 +112,16 @@ export function AddNewTaks() {
     }
   }
 
+  const handleClose = (value: boolean) => {
+    setOpen(value);
+    reset();
+    setSubstasks([]);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger asChild>
-        <Button className="gap-2 rounded-full">
+        <Button className="gap-2 rounded-full" onClick={() => setOpen(true)}>
           <FaPlus /> Criar nova demanda
         </Button>
       </DialogTrigger>

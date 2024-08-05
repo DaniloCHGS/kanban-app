@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const tasks = await prisma.task.findMany({
       include: {
-        SubsTasks: true,
+        subsTasks: true,
       },
     });
     return Response.json(tasks);

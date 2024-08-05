@@ -1,42 +1,49 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Subtask } from "./subtask";
-import { Label } from "@/components/ui/label";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { TypeTask } from "@/types";
+import { api } from "@/services/api";
 
 export function ViewTask() {
   const [open, setOpen] = useState<boolean>(false);
+  const [task, setTask] = useState<TypeTask | null>(null);
 
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const taskId = searchParams.get("task-id");
 
+  const getTask = useCallback(async () => {
+    try {
+      const response = await api.get(`/tasks/${taskId}`);
+      setTask(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [taskId]);
+
   useEffect(() => {
     if (taskId) {
       setOpen(true);
     }
-  }, [searchParams, taskId]);
+    getTask();
+  }, [getTask, searchParams, taskId]);
+
+  const subsTasksMemo = useMemo(() => {
+    if (task?.subsTasks && task?.subsTasks?.length > 0) {
+      return `${task.subsTasks?.filter((sub) => sub.completed).length} of ${task.subsTasks?.length} substasks`;
+    }
+    return "0 substasks";
+  }, [task]);
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
@@ -53,41 +60,21 @@ export function ViewTask() {
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent className="border-white/10 bg-theme-secondary text-white">
         <SheetHeader>
-          <SheetTitle className="text-white">Teste 1</SheetTitle>
-          <SheetDescription>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita
-            ratione nam accusantium nulla eligendi nihil. Enim ullam odit vero
-            magni quaerat minima ipsum nemo repellat harum, adipisci molestias,
-            omnis cumque?
-          </SheetDescription>
+          {task && <SheetTitle className="text-white">{task.title}</SheetTitle>}
+          {task && <SheetDescription>{task.description}</SheetDescription>}
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="">
-            <span className="text-xs">1 of 3 substasks</span>
-            <div className="mt-2 space-y-2">
-              <Subtask.Check title="Sub 1" />
-              <Subtask.Check title="Sub 2" />
+            <span className="text-xs">{subsTasksMemo}</span>
+            <div className="mt-2 flex flex-col gap-2">
+              {task?.subsTasks?.map((subTask) => (
+                <span key={subTask.id} className="bg-theme p-2 text-xs">
+                  {subTask.title}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="my-2">
-            <Label className="text-xs">Status</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Theme" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Atualizar demanda</Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

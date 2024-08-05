@@ -15,7 +15,7 @@ model Task {
   title       String      @unique
   description String?
   status      String      @default("TODO")
-  SubsTasks   SubsTasks[]
+  subsTasks   SubsTasks[]
 
   @@map("tasks")
 }
@@ -27,5 +27,5 @@ model SubsTasks {
   task      Task    @relation(fields: [taskId], references: [id])
   taskId    Int
 
-  @@map("substasks")
+  @@map("subsTasks")
 }

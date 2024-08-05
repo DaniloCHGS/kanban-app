@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,9 +36,13 @@ import { api } from "@/services/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useTasks } from "@/store/useTasks";
 
-export function AddNewTaks() {
+interface Props {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+export function AddNewTaks({ open, setOpen }: Readonly<Props>) {
   const [substasks, setSubstasks] = useState<TypeSubsTasks[]>([]);
-  const [open, setOpen] = useState<boolean>(false);
 
   const { tasks, setTasks } = useTasks();
   const { toast } = useToast();
@@ -99,32 +102,27 @@ export function AddNewTaks() {
       });
 
       setTasks([...tasks, response.data]);
-      reset();
+      handleClose();
 
       toast({
         title: "Demanda criada com sucesso",
       });
     } catch (error) {
       toast({
-        title: "Demanda criada com sucesso",
+        title: "Internal server error",
         variant: "destructive",
       });
     }
   }
 
-  const handleClose = (value: boolean) => {
-    setOpen(value);
+  const handleClose = () => {
+    setOpen(false);
     reset();
     setSubstasks([]);
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogTrigger asChild>
-        <Button className="gap-2 rounded-full" onClick={() => setOpen(true)}>
-          <FaPlus /> Criar nova demanda
-        </Button>
-      </DialogTrigger>
       <DialogContent className="border-theme-secondary bg-theme-secondary text-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Criar nova demanda</DialogTitle>

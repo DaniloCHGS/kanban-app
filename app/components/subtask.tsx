@@ -3,7 +3,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 import { RiCloseLargeFill } from "react-icons/ri";
 
 interface AddProps extends ComponentProps<"input"> {
@@ -23,24 +23,37 @@ function Add({ className, onRemove, ...props }: Readonly<AddProps>) {
 
 interface CheckProps {
   title: string;
-  finished?: boolean;
+  completed?: boolean;
+  onChange: (value: boolean) => void;
 }
 
-function Check({ title }: Readonly<CheckProps>) {
-  const [finished, setFinished] = useState<boolean>(false);
+function Check({
+  title,
+  completed: completedProps = false,
+  onChange,
+}: Readonly<CheckProps>) {
+  const [completed, setCompleted] = useState<boolean>(completedProps);
+
+  useEffect(() => {
+    setCompleted(completedProps);
+  }, [completedProps]);
+
+  useEffect(() => {
+    onChange(completed);
+  }, [completed, onChange]);
 
   return (
     <div
-      data-finished={finished}
+      data-completed={completed}
       className="group flex items-center gap-2 bg-theme p-2"
     >
       <Checkbox
         id={title}
-        onClick={() => setFinished((oldState) => !oldState)}
+        onClick={() => setCompleted((oldState) => !oldState)}
       />
       <Label
         htmlFor={title}
-        className="flex-1 cursor-pointer text-xs font-medium group-data-[finished=true]:text-white/30 group-data-[finished=true]:line-through"
+        className="flex-1 cursor-pointer text-xs font-medium group-data-[completed=true]:text-white/30 group-data-[finished=true]:line-through"
       >
         {title}
       </Label>

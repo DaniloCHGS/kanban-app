@@ -21,15 +21,21 @@ export default function Home() {
   }, [getTasks]);
 
   const todoTasks = useMemo(() => {
-    return tasks.filter((task) => task.status === "TODO");
+    return tasks.length > 0
+      ? tasks.filter((task) => task.status === "TODO")
+      : [];
   }, [tasks]);
 
   const doingTasks = useMemo(() => {
-    return tasks.filter((task) => task.status === "DOING");
+    return tasks.length > 0
+      ? tasks.filter((task) => task.status === "DOING")
+      : [];
   }, [tasks]);
 
   const doneTasks = useMemo(() => {
-    return tasks.filter((task) => task.status === "DONE");
+    return tasks.length > 0
+      ? tasks.filter((task) => task.status === "DONE")
+      : [];
   }, [tasks]);
 
   return (

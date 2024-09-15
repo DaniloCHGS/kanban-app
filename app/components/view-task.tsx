@@ -10,8 +10,11 @@ import {
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { TypeTask } from "@/types";
+import { TaskSchema, TypeTask } from "@/types";
 import { api } from "@/services/api";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Subtask } from "./subtask";
 
 export function ViewTask() {
   const [open, setOpen] = useState<boolean>(false);
@@ -21,6 +24,11 @@ export function ViewTask() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const taskId = searchParams.get("task-id");
+
+  const { register, setValue, handleSubmit, formState, reset } =
+    useForm<TypeTask>({
+      resolver: zodResolver(TaskSchema),
+    });
 
   const getTask = useCallback(async () => {
     try {
@@ -37,6 +45,16 @@ export function ViewTask() {
     }
     getTask();
   }, [getTask, searchParams, taskId]);
+
+  useEffect(() => {
+    if (task) {
+      setValue("description", task.description);
+      setValue("id", task.id);
+      setValue("status", task.status);
+      setValue("title", task.title);
+      setValue("subsTasks", task.subsTasks);
+    }
+  }, [setValue, task]);
 
   const subsTasksMemo = useMemo(() => {
     if (task?.subsTasks && task?.subsTasks?.length > 0) {
@@ -56,6 +74,13 @@ export function ViewTask() {
     }
   };
 
+  async function updateSubtask(subTaskId: string, value: boolean) {
+    try {
+      const response = await api.post(`/subtasks/${subTaskId}`);
+      console.log(response.data);
+    } catch (error) {}
+  }
+
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent className="border-white/10 bg-theme-secondary text-white">
@@ -68,9 +93,12 @@ export function ViewTask() {
             <span className="text-xs">{subsTasksMemo}</span>
             <div className="mt-2 flex flex-col gap-2">
               {task?.subsTasks?.map((subTask) => (
-                <span key={subTask.id} className="bg-theme p-2 text-xs">
-                  {subTask.title}
-                </span>
+                <Subtask.Check
+                  key={subTask.id}
+                  title={subTask.title}
+                  completed={subTask.completed}
+                  onChange={(value) => updateSubtask(subTask.id, value)}
+                />
               ))}
             </div>
           </div>

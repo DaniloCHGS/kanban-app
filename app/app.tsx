@@ -3,6 +3,7 @@
 import { useAside } from "@/store/useAside";
 import { Aside } from "./components/aside";
 import { MenuTop } from "./components/menu-top";
+import { CreateNewBoard } from "./components/create-new-board";
 
 export function App({
   children,

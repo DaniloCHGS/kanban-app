@@ -1,12 +1,13 @@
 "use client";
 
 import { useAside } from "@/store/useAside";
-import { AsideLink } from "./aside-link";
 import { HiddeAside } from "./toggle-show-aside";
 import { MdOutlineViewKanban } from "react-icons/md";
+import { useCreateNewBoard } from "@/store/useCreateNewBoard";
 
 export function Aside() {
   const { asideOpen } = useAside();
+  const { setOpen } = useCreateNewBoard();
   return (
     <aside
       data-open={asideOpen}
@@ -17,15 +18,16 @@ export function Aside() {
           Kanban
         </header>
         <span className="block pl-6 text-xs uppercase text-white/30">
-          All Boards (3)
+          Todos os quadros (0)
         </span>
 
-        <nav className="mt-5 flex w-full flex-col">
-          <AsideLink
-            href="/demandas"
-            title="Demandas"
-            icon={MdOutlineViewKanban}
-          />
+        <nav className="mt-5 flex w-full flex-col gap-2">
+          <button
+            className="flex w-full items-center gap-2 rounded-br-full rounded-tr-full py-3 pl-6 text-sm text-theme-purple transition hover:bg-theme-purple hover:text-white"
+            onClick={() => setOpen(true)}
+          >
+            <MdOutlineViewKanban className="text-lg" />+ Criar novo quadro
+          </button>
         </nav>
       </div>
 
